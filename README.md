@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A modern calendar web application built with Next.js 13+ (App Router) that allows users to create, edit, delete, and view both one-time and recurring events (Daily, Weekly, Monthly).
+Styled beautifully with Tailwind CSS, powered by Prisma ORM, and connected to a PostgreSQL database.
 
-## Getting Started
+=> Features
+=> Event Management
 
-First, run the development server:
+ Create,  Update, Delete, and List Events
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Supports both one-time and recurring events
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Recurrence options:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-> Daily
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-> Weekly (select specific weekdays)
 
-## Learn More
+-> Monthly
 
-To learn more about Next.js, take a look at the following resources:
+Includes optional recurrence end date
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Validates all form inputs before submission
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+-> Calendar View
 
-## Deploy on Vercel
+Displays events on a monthly grid
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Highlights recurring events automatically
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Includes navigation for previous / next month
+
+Built using Tailwind CSS for responsive design
+
+==> Backend (API)
+
+RESTful endpoints under /api/events
+
+==> Tech Stack
+Layer     : 	Technology
+Framework : 	Next.js 13+ (App Router)
+Styling   : 	Tailwind CSS
+Database  : 	PostgreSQL (via Prisma ORM)
+API       : 	Next.js Route Handlers
+Language  : 	TypeScript
+Optional  : 	date-fns
+
+==> Environment Setup
+
+first command - npm i
+then - npx prisma generate
+then - create .env file
+then - DATABASE_URL="postgresql://USER:PASSWORD@127.0.0.1:5432/eventsdb?schema=public" enter this variable inside the file(make database named eventsdb)
+
+
+Built with Next.js Route Handlers
+
+Fully integrated with Prisma ORM
