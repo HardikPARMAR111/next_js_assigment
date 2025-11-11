@@ -8,12 +8,12 @@ Styled beautifully with **Tailwind CSS**, powered by **Prisma ORM**, and connect
 Features
 
  Event Management
-- ➕ **Create**, ✏️ **Update**, ❌ **Delete**, and 📋 **List** Events  
+-  **Create**, **Update**, **Delete**, and  **List** Events  
 - Supports both **one-time** and **recurring** events  
 - **Recurrence Options:**
-  - 🗓️ Daily  
-  - 📅 Weekly (select specific weekdays)  
-  - 📆 Monthly  
+  -  Daily  
+  -  Weekly (select specific weekdays)  
+  -  Monthly  
 - Includes optional **recurrence end date**  
 - Validates all form inputs before submission  
 
@@ -51,8 +51,8 @@ Environment Setup
 
  Install dependencies  
 
- npm install
- npx prisma generate
- then create .env file
- DATABASE_URL="postgresql://USER:PASSWORD@127.0.0.1:5432/eventsdb" then add this variable inside the .env file make table name
- replace the username and password according to your database
+ - npm install
+ - npx prisma generate
+ - then create .env file
+ - DATABASE_URL="postgresql://USER:PASSWORD@127.0.0.1:5432/eventsdb" then add this variable inside the .env file make table name
+ - replace the username and password according to your database
