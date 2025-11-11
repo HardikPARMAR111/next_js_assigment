@@ -4,14 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
-import {
-  Calendar,
-  Clock,
-  Repeat,
-  ArrowLeft,
-  MapPin,
-  AlertCircle,
-} from "lucide-react";
+import { Calendar, Clock, Repeat, ArrowLeft, AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Event {
   id: number;
@@ -29,6 +23,7 @@ export default function EventDetails() {
   const { id } = useParams();
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     if (!id) return;
@@ -44,6 +39,23 @@ export default function EventDetails() {
     };
     fetchEvent();
   }, [id]);
+
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this event?")) return;
+
+    try {
+      const response = await axios.delete(`/api/events/${id}`);
+      if (response.data.success) {
+        alert("Event deleted successfully!");
+        router.push("/");
+      } else {
+        alert("Failed to delete event. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      alert("Something went wrong while deleting the event.");
+    }
+  };
 
   if (loading)
     return (
@@ -66,7 +78,7 @@ export default function EventDetails() {
             Event Not Found
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            The event you're looking for doesn't exist or has been removed.
+            The event you are looking for does not exist or has been removed.
           </p>
           <Link href="/">
             <button className="px-6 py-3 bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-600/90 text-white font-semibold rounded-xl shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto">
@@ -111,7 +123,7 @@ export default function EventDetails() {
 
         {/* Main Card */}
         <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 dark:border-slate-700/50 overflow-hidden">
-          {/* Header Section with Gradient */}
+          {/* Header Section */}
           <div className="relative bg-gradient-to-r from-primary to-indigo-600 dark:from-primary dark:to-indigo-500 p-8 md:p-12">
             <div className="absolute inset-0 bg-black/5"></div>
             <div className="relative">
@@ -134,9 +146,7 @@ export default function EventDetails() {
 
           {/* Content Section */}
           <div className="p-8 md:p-12 space-y-8">
-            {/* Date & Time Grid */}
             <div className="grid md:grid-cols-2 gap-6">
-              {/* Start Date/Time */}
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-6 rounded-2xl border-2 border-green-200 dark:border-green-800/50">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 bg-green-500 rounded-xl">
@@ -175,7 +185,6 @@ export default function EventDetails() {
               </div>
             </div>
 
-            {/* Recurring Information */}
             {event.isRecurring && (
               <div className="bg-gradient-to-br from-primary/5 to-indigo-500/5 dark:from-primary/10 dark:to-indigo-500/10 p-6 rounded-2xl border-2 border-primary/20">
                 <div className="flex items-center gap-3 mb-4">
@@ -219,7 +228,6 @@ export default function EventDetails() {
                     </div>
                   )}
 
-                  {/* Recurrence End */}
                   {event.recurrenceEnd && (
                     <div className="flex items-start gap-3">
                       <div className="min-w-[140px] text-gray-600 dark:text-gray-400 font-medium">
@@ -254,6 +262,12 @@ export default function EventDetails() {
                   Edit Event
                 </button>
               </Link>
+              <button
+                onClick={handleDelete}
+                className="flex-1 min-w-[200px] px-6 py-4 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold rounded-xl shadow-lg shadow-red-300 hover:shadow-xl hover:shadow-red-400 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Delete Event
+              </button>
               <Link href="/" className="flex-1 min-w-[200px]">
                 <button className="w-full px-6 py-4 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-slate-700 dark:to-slate-600 hover:from-gray-200 hover:to-gray-300 dark:hover:from-slate-600 dark:hover:to-slate-500 text-gray-900 dark:text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]">
                   View All Events

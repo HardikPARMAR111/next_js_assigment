@@ -72,14 +72,35 @@ export default function CreateEventPage() {
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
+    // Basic checks
     if (!state.title.trim()) errors.title = "Title is required";
     if (!state.startDate) errors.startDate = "Start date is required";
     if (!state.endDate) errors.endDate = "End date is required";
 
+    // Compare start and end date
+    if (state.startDate && state.endDate) {
+      const start = new Date(state.startDate);
+      const end = new Date(state.endDate);
+      if (start >= end) errors.endDate = "End date must be after start date";
+    }
+
+    // Recurrence validation
     if (state.isRecurring) {
-      if (!state.frequency) errors.frequency = "Select a recurrence frequency";
-      if (state.frequency === "WEEKLY" && state.daysOfWeek.length === 0)
+      if (!state.frequency) {
+        errors.frequency = "Select a recurrence frequency";
+      }
+
+      if (state.frequency === "WEEKLY" && state.daysOfWeek.length === 0) {
         errors.daysOfWeek = "Select at least one day of the week";
+      }
+
+      if (state.recurrenceEnd) {
+        const recurrenceEndDate = new Date(state.recurrenceEnd);
+        const start = new Date(state.startDate);
+        if (recurrenceEndDate <= start) {
+          errors.recurrenceEnd = "Recurrence end date must be after start date";
+        }
+      }
     }
 
     dispatch({ type: "SET_ERRORS", errors });
@@ -366,7 +387,6 @@ export default function CreateEventPage() {
               </div>
             )}
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
